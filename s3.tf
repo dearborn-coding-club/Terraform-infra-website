@@ -22,3 +22,24 @@ resource "aws_s3_bucket_website_configuration" "s3_bucket_website" {
   }
 
 }
+
+
+##Bucket policy
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  depends_on = [aws_s3_bucket_public_access_block.public_access_policy]
+  bucket     = aws_s3_bucket.s3.id
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Sid" : "PublicReadGetObject",
+          "Effect" : "Allow",
+          "Principal" : "*",
+          "Action" : "s3:GetObject",
+          "Resource" : "arn:aws:s3:::${aws_s3_bucket.s3.id}/*"
+        }
+      ]
+    }
+  )
+}
