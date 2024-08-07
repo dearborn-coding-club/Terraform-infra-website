@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "s3" {
     bucket = "website-backend-hosting"
+    force_destroy = true
     
    
   
